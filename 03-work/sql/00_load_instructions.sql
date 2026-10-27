@@ -1,3 +1,5 @@
--- Cargar sales.csv y products.csv como tablas 'sales' y 'products'.
--- En SQL Server: BULK INSERT / OPENROWSET.
--- En Postgres: COPY.
+-- CSV files are committed under 02-data/raw/.
+-- The automated runner loads both files into an in-memory SQLite database:
+--     python scripts/run_sql.py
+-- sales.csv has no product_id. Join sales to products only after aggregating
+-- both tables by category, otherwise revenue will be multiplied by product count.
