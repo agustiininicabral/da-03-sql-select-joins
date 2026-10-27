@@ -25,7 +25,6 @@ def load_csv(connection: sqlite3.Connection, path: Path, table: str) -> int:
             raise ValueError(f"CSV has no header: {path}")
         if any(not IDENTIFIER.fullmatch(column) for column in columns):
             raise ValueError(f"CSV has unsupported column names: {columns}")
-
         rows = list(reader)
 
     quoted_columns = ", ".join(f'"{column}" TEXT' for column in columns)
@@ -50,7 +49,9 @@ def execute_queries(
 
         match = re.search(r"^\s*--\s*QUERY:\s*(.+)$", statement, flags=re.MULTILINE)
         if match is None:
-            raise ValueError("Every SQL statement must start with a '-- QUERY: name' comment.")
+            raise ValueError(
+                "Every SQL statement must start with a '-- QUERY: name' comment."
+            )
 
         query_name = match.group(1).strip()
         sql = "\n".join(
@@ -63,9 +64,7 @@ def execute_queries(
 
         cursor = connection.execute(sql)
         columns = [description[0] for description in cursor.description or []]
-        results[query_name] = [
-            dict(zip(columns, row)) for row in cursor.fetchall()
-        ]
+        results[query_name] = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
     if not results:
         raise ValueError("No named SQL queries were found.")
