@@ -18,12 +18,8 @@ def test_all_sql_examples_execute_and_joins_preserve_revenue() -> None:
     top_categories = next(
         rows for name, rows in results.items() if name.startswith("Q01")
     )
-    inner_join = next(
-        rows for name, rows in results.items() if name.startswith("Q04")
-    )
-    left_join = next(
-        rows for name, rows in results.items() if name.startswith("Q05")
-    )
+    inner_join = next(rows for name, rows in results.items() if name.startswith("Q04"))
+    left_join = next(rows for name, rows in results.items() if name.startswith("Q05"))
 
     assert len(top_categories) == 6
     assert len(inner_join) == 6
