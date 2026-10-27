@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import sqlite3
-from pathlib import Path
 
 import pytest
 
@@ -12,11 +11,19 @@ def test_all_sql_examples_execute_and_joins_preserve_revenue() -> None:
     results = run_queries()
 
     assert len(results) == 5
-    assert all(name.startswith(f"Q{index:02d}") for index, name in enumerate(results, 1))
+    assert all(
+        name.startswith(f"Q{index:02d}") for index, name in enumerate(results, 1)
+    )
 
-    top_categories = next(rows for name, rows in results.items() if name.startswith("Q01"))
-    inner_join = next(rows for name, rows in results.items() if name.startswith("Q04"))
-    left_join = next(rows for name, rows in results.items() if name.startswith("Q05"))
+    top_categories = next(
+        rows for name, rows in results.items() if name.startswith("Q01")
+    )
+    inner_join = next(
+        rows for name, rows in results.items() if name.startswith("Q04")
+    )
+    left_join = next(
+        rows for name, rows in results.items() if name.startswith("Q05")
+    )
 
     assert len(top_categories) == 6
     assert len(inner_join) == 6
