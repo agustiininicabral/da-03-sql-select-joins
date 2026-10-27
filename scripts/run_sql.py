@@ -55,9 +55,7 @@ def execute_queries(
 
         query_name = match.group(1).strip()
         sql = "\n".join(
-            line
-            for line in statement.splitlines()
-            if not line.strip().startswith("--")
+            line for line in statement.splitlines() if not line.strip().startswith("--")
         ).strip()
         if not sql:
             raise ValueError(f"Query {query_name!r} has no SQL statement.")
